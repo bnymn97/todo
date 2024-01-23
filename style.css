@@ -1,0 +1,56 @@
+body{
+    background-color: rgb(44, 45, 44);
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+}
+
+.inputButton{
+    display: flex;
+    justify-content: center;
+    margin-top: 3vw;
+}
+
+h1 {
+    color: #9999FF;
+    font-size: 2em;
+}
+
+.eingabefeld{
+    width: 30vw;
+    height: 2vw;
+    border-radius: 0.5vw;
+    border: none;
+    padding-left: 1vw;
+    margin-left: 5vw;
+}
+
+button {
+    background-color: #9999FF;
+    color: #dedede;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    font-size: 1em;
+    align-content: center;
+    margin-left: 1vw;
+}
+
+button:hover {
+    background-color: #ffa049;
+    color: #fff;
+}
+
+.liste{
+    display: grid;
+    grid-column-gap: 10vw;
+}
+
+
+#todoListe{
+    color: #fff;
+    margin-top: 3vw;
+    margin-left: 33vw;
+}
