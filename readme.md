@@ -4,4 +4,4 @@ Style verändert
 
 dropdown menu mit submenu hinzugefügt um in zukunft die erledigten aufgaben dort zu listen
 
-Spruch des Tages mit der Idee das dort täglich ein neuer Spruch motivierender Spruch steht
+Spruch des Tages mit der Idee das dort täglich ein neuer motivierender Spruch steht
