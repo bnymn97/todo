@@ -48,9 +48,57 @@ button:hover {
     grid-column-gap: 10vw;
 }
 
-
 #todoListe{
     color: #fff;
     margin-top: 3vw;
     margin-left: 33vw;
+}
+
+.menu {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown {
+    display: none;
+    position: absolute;
+    background-color:rgb(34, 34, 34);
+    color: #9999FF;
+    min-width: 10vw;
+    padding: 1vw;
+    z-index: 1;
+  }
+  
+  .menu:hover .dropdown {
+    display: block;
+  }
+
+    .subdrop{
+        display: none;
+        position:relative;
+        background-color: rgb(43, 43, 43);
+        color: #9999FF;
+        min-width: 10vw;
+        padding: 1vw;
+        z-index: 1;
+    }
+
+    .submenu:hover .subdrop{
+        display: block;
+    }
+
+.motivation{
+    text-align: center;
+    margin-top: 20vw;
+}
+
+h4{
+    font-size: 2vw;
+    color: white;
+}
+
+.spruch{
+    font-size: 1.5vw;
+    color: white;
+    padding: none;
 }
