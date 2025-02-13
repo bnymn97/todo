@@ -3,7 +3,7 @@ document.getElementById("register-btn").addEventListener("click", async () => {
   const password = document.getElementById("password").value.trim();
 
   if (!username || !password) {
-    alert("Bitte alle Felder ausfüllen");
+    alert("Please fill out all fields");
     return;
   }
 
@@ -18,13 +18,13 @@ document.getElementById("register-btn").addEventListener("click", async () => {
 
     const data = await response.json();
     if (response.ok) {
-      alert("Registrierung erfolgreich! Bitte einloggen.");
+      alert("Registration successful! Please log in.");
     } else {
       alert(data.message);
     }
   } catch (error) {
-    console.error("Fehler bei der Registrierung:", error);
-    alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+    console.error("Error during registration:", error);
+    alert("An error occurred. Please try again later.");
   }
 });
 
@@ -33,7 +33,7 @@ document.getElementById("login-btn").addEventListener("click", async () => {
   const password = document.getElementById("password").value.trim();
 
   if (!username || !password) {
-    alert("Bitte alle Felder ausfüllen");
+    alert("Please fill out all fields");
     return;
   }
 
@@ -48,7 +48,7 @@ document.getElementById("login-btn").addEventListener("click", async () => {
 
     const data = await response.json();
     if (response.ok) {
-      alert("Login erfolgreich!");
+      alert("Login successful!");
       localStorage.setItem("token", data.token);
       document.getElementById("auth-section").style.display = "none";
       document.getElementById("todo-section").style.display = "block";
@@ -57,15 +57,15 @@ document.getElementById("login-btn").addEventListener("click", async () => {
       alert(data.message);
     }
   } catch (error) {
-    console.error("Fehler beim Login:", error);
-    alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+    console.error("Error during login:", error);
+    alert("An error occurred. Please try again later.");
   }
 });
 
 document.getElementById("add-task-btn").addEventListener("click", async () => {
   const taskText = document.getElementById("new-task").value.trim();
   if (!taskText) {
-    alert("Aufgabentext darf nicht leer sein");
+    alert("Task text cannot be empty");
     return;
   }
 
@@ -82,15 +82,22 @@ document.getElementById("add-task-btn").addEventListener("click", async () => {
     });
 
     if (response.ok) {
-      alert("Aufgabe erfolgreich hinzugefügt");
+      alert("Task added successfully");
       document.getElementById("new-task").value = "";
       fetchTasks();
     } else {
-      alert("Fehler beim Hinzufügen der Aufgabe.");
+      alert("Error adding task.");
     }
   } catch (error) {
-    console.error("Fehler beim Hinzufügen der Aufgabe:", error);
+    console.error("Error adding task:", error);
   }
+});
+
+document.getElementById("logout-btn").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  document.getElementById("auth-section").style.display = "flex";
+  document.getElementById("todo-section").style.display = "none";
+  alert("Logged out successfully");
 });
 
 async function fetchTasks() {
@@ -110,10 +117,10 @@ async function fetchTasks() {
       displayTasks(tasks.filter((task) => !task.completed));
       handleTabSwitch(tasks);
     } else {
-      alert("Fehler beim Abrufen der Aufgaben.");
+      alert("Error fetching tasks.");
     }
   } catch (error) {
-    console.error("Fehler beim Abrufen der Aufgaben:", error);
+    console.error("Error fetching tasks:", error);
   }
 }
 
@@ -124,17 +131,25 @@ function displayTasks(tasks) {
   tasks.forEach((task) => {
     const taskItem = document.createElement("div");
     taskItem.classList.add("todo-item");
+
+    let buttonsHtml = "";
+    if (!task.completed) {
+      buttonsHtml = `
+        <button class="complete-btn" onclick="completeTask(${task.id})">Complete</button>
+        <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+      `;
+    } else {
+      buttonsHtml = `
+        <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+      `;
+    }
+
     taskItem.innerHTML = `
       <span class="${task.completed ? "completed" : ""}">${
       task.task_text
     }</span>
       <div>
-        <button class="complete-btn" onclick="completeTask(${
-          task.id
-        })">Erledigt</button>
-        <button class="delete-btn" onclick="deleteTask(${
-          task.id
-        })">Löschen</button>
+        ${buttonsHtml}
       </div>
     `;
     tasksList.appendChild(taskItem);
@@ -154,13 +169,13 @@ async function completeTask(taskId) {
     });
 
     if (response.ok) {
-      alert("Aufgabe als erledigt markiert");
+      alert("Task marked as completed");
       fetchTasks();
     } else {
-      alert("Fehler beim Markieren der Aufgabe.");
+      alert("Error marking task as completed.");
     }
   } catch (error) {
-    console.error("Fehler beim Aktualisieren der Aufgabe:", error);
+    console.error("Error updating task:", error);
   }
 }
 
@@ -177,13 +192,13 @@ async function deleteTask(taskId) {
     });
 
     if (response.ok) {
-      alert("Aufgabe erfolgreich gelöscht");
+      alert("Task deleted successfully");
       fetchTasks();
     } else {
-      alert("Fehler beim Löschen der Aufgabe.");
+      alert("Error deleting task.");
     }
   } catch (error) {
-    console.error("Fehler beim Löschen der Aufgabe:", error);
+    console.error("Error deleting task:", error);
   }
 }
 

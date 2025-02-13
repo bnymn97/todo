@@ -11,21 +11,24 @@
       <h1>ToDo App</h1>
 
       <div id="auth-section" class="center-content">
-        <input type="text" id="username" placeholder="Benutzername" />
-        <input type="password" id="password" placeholder="Passwort" />
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
         <button id="login-btn">Login</button>
         <button id="register-btn">Create Account</button>
       </div>
 
       <div id="todo-section" style="display: none">
         <div class="center-content">
+          <button id="logout-btn">Logout</button>
+        </div>
+        <div class="center-content">
           <input type="text" id="new-task" placeholder="New Task" />
           <button id="add-task-btn">Add</button>
         </div>
 
         <div class="tabs">
-          <button id="show-active">active Tasks</button>
-          <button id="show-completed">finished Tasks</button>
+          <button id="show-active">Active Tasks</button>
+          <button id="show-completed">Finished Tasks</button>
         </div>
 
         <div id="tasks-list"></div>

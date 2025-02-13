@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
@@ -10,9 +10,9 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) {
-    console.error("Datenbankverbindung fehlgeschlagen:", err);
+    console.error("Database connection failed:", err);
   } else {
-    console.log("Mit der Datenbank verbunden");
+    console.log("Connected to the database");
   }
 });
 

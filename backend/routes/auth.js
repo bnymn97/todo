@@ -10,11 +10,11 @@ const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
-  console.log("Registrierungsanfrage empfangen:", { username, password });
+  console.log("Registration request received:", { username, password });
 
   if (!username || !password) {
-    console.log("Fehler: Felder nicht ausgefüllt.");
-    return res.status(400).json({ message: "Alle Felder ausfüllen" });
+    console.log("Error: All fields must be filled in.");
+    return res.status(400).json({ message: "Please fill out all fields" });
   }
 
   db.query(
@@ -22,43 +22,38 @@ router.post("/register", async (req, res) => {
     [username],
     async (err, result) => {
       if (err) {
-        console.error(
-          "Datenbankfehler beim Überprüfen des Benutzernamens:",
-          err
-        );
-        return res.status(500).json({ message: "Datenbankfehler" });
+        console.error("Database error while checking username:", err);
+        return res.status(500).json({ message: "Database error" });
       }
 
       if (result.length > 0) {
-        console.log("Benutzername existiert bereits:", username);
-        return res
-          .status(400)
-          .json({ message: "Benutzername existiert bereits" });
+        console.log("Username already exists:", username);
+        return res.status(400).json({ message: "Username already exists" });
       }
 
       try {
-        console.log("Hashing des Passworts...");
+        console.log("Hashing password...");
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log("Passwort gehasht.");
+        console.log("Password hashed.");
 
         db.query(
           "INSERT INTO users (username, password) VALUES (?, ?)",
           [username, hashedPassword],
           (err) => {
             if (err) {
-              console.error("Fehler bei der Registrierung:", err);
+              console.error("Error during registration:", err);
               return res
                 .status(500)
-                .json({ message: "Fehler bei der Registrierung" });
+                .json({ message: "Error during registration" });
             }
 
-            console.log("Benutzer erfolgreich registriert:", username);
-            res.status(201).json({ message: "Registrierung erfolgreich" });
+            console.log("User registered successfully:", username);
+            res.status(201).json({ message: "Registration successful" });
           }
         );
       } catch (error) {
-        console.error("Fehler beim Hashing des Passworts:", error);
-        res.status(500).json({ message: "Interner Fehler" });
+        console.error("Error hashing password:", error);
+        res.status(500).json({ message: "Internal error" });
       }
     }
   );
@@ -69,7 +64,7 @@ router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: "Alle Felder ausfüllen" });
+    return res.status(400).json({ message: "Please fill in all fields" });
   }
 
   db.query(
@@ -77,12 +72,12 @@ router.post("/login", (req, res) => {
     [username],
     async (err, result) => {
       if (err) {
-        return res.status(500).json({ message: "Datenbankfehler" });
+        return res.status(500).json({ message: "Database error" });
       }
       if (result.length === 0) {
         return res
           .status(400)
-          .json({ message: "Benutzername oder Passwort ist falsch" });
+          .json({ message: "Username or password is incorrect" });
       }
 
       const user = result[0];
@@ -91,15 +86,15 @@ router.post("/login", (req, res) => {
       if (!isMatch) {
         return res
           .status(400)
-          .json({ message: "Benutzername oder Passwort ist falsch" });
+          .json({ message: "Username or password is incorrect" });
       }
 
-      // JWT generieren
+      // Generate JWT
       const token = jwt.sign({ id: user.id }, jwtSecret, {
         expiresIn: "1h",
       });
 
-      res.json({ message: "Login erfolgreich", token });
+      res.json({ message: "Login successful", token });
     }
   );
 });

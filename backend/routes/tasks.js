@@ -3,19 +3,19 @@ const jwt = require("jsonwebtoken");
 const db = require("../db");
 
 const router = express.Router();
-const jwtSecret = "super-secret-key";
+const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "Nicht autorisiert" });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   jwt.verify(token, jwtSecret, (err, user) => {
     if (err) {
-      return res.status(403).json({ message: "Ungültiges Token" });
+      return res.status(403).json({ message: "Invalid token" });
     }
     req.userId = user.id;
     next();
@@ -27,9 +27,7 @@ router.post("/create", authenticateToken, (req, res) => {
   const userId = req.userId;
 
   if (!task_text) {
-    return res
-      .status(400)
-      .json({ message: "Aufgabentext darf nicht leer sein" });
+    return res.status(400).json({ message: "Task text cannot be empty" });
   }
 
   db.query(
@@ -37,11 +35,9 @@ router.post("/create", authenticateToken, (req, res) => {
     [userId, task_text],
     (err) => {
       if (err) {
-        return res
-          .status(500)
-          .json({ message: "Fehler beim Speichern der Aufgabe" });
+        return res.status(500).json({ message: "Error saving task" });
       }
-      res.status(201).json({ message: "Aufgabe erfolgreich hinzugefügt" });
+      res.status(201).json({ message: "Task added successfully" });
     }
   );
 });
@@ -61,9 +57,7 @@ router.get("/", authenticateToken, (req, res) => {
 
   db.query(query, params, (err, result) => {
     if (err) {
-      return res
-        .status(500)
-        .json({ message: "Fehler beim Abrufen der Aufgaben" });
+      return res.status(500).json({ message: "Error fetching tasks" });
     }
     res.json(result);
   });
@@ -78,13 +72,11 @@ router.patch("/:id/complete", authenticateToken, (req, res) => {
     [taskId, userId],
     (err) => {
       if (err) {
-        return res
-          .status(500)
-          .json({ message: "Fehler beim Aktualisieren der Aufgabe" });
+        return res.status(500).json({ message: "Error updating task" });
       }
       res
         .status(200)
-        .json({ message: "Aufgabe erfolgreich als erledigt markiert" });
+        .json({ message: "Task successfully marked as completed" });
     }
   );
 });
@@ -95,9 +87,7 @@ router.put("/:id", authenticateToken, (req, res) => {
   const { task_text } = req.body;
 
   if (!task_text) {
-    return res
-      .status(400)
-      .json({ message: "Aufgabentext darf nicht leer sein" });
+    return res.status(400).json({ message: "Task text cannot be empty" });
   }
 
   db.query(
@@ -105,11 +95,9 @@ router.put("/:id", authenticateToken, (req, res) => {
     [task_text, taskId, userId],
     (err) => {
       if (err) {
-        return res
-          .status(500)
-          .json({ message: "Fehler beim Bearbeiten der Aufgabe" });
+        return res.status(500).json({ message: "Error updating task" });
       }
-      res.status(200).json({ message: "Aufgabe erfolgreich bearbeitet" });
+      res.status(200).json({ message: "Task updated successfully" });
     }
   );
 });
@@ -123,11 +111,9 @@ router.delete("/:id", authenticateToken, (req, res) => {
     [taskId, userId],
     (err) => {
       if (err) {
-        return res
-          .status(500)
-          .json({ message: "Fehler beim Löschen der Aufgabe" });
+        return res.status(500).json({ message: "Error deleting task" });
       }
-      res.status(200).json({ message: "Aufgabe erfolgreich gelöscht" });
+      res.status(200).json({ message: "Task deleted successfully" });
     }
   );
 });
