@@ -10,24 +10,22 @@
     <div class="container">
       <h1>ToDo App</h1>
 
-      <!-- Login/Register Section -->
       <div id="auth-section" class="center-content">
         <input type="text" id="username" placeholder="Benutzername" />
         <input type="password" id="password" placeholder="Passwort" />
-        <button id="login-btn">Einloggen</button>
-        <button id="register-btn">Registrieren</button>
+        <button id="login-btn">Login</button>
+        <button id="register-btn">Create Account</button>
       </div>
 
-      <!-- ToDo App Section -->
       <div id="todo-section" style="display: none">
         <div class="center-content">
-          <input type="text" id="new-task" placeholder="Neue Aufgabe" />
-          <button id="add-task-btn">Hinzufügen</button>
+          <input type="text" id="new-task" placeholder="New Task" />
+          <button id="add-task-btn">Add</button>
         </div>
 
         <div class="tabs">
-          <button id="show-active">Aktive Aufgaben</button>
-          <button id="show-completed">Erledigte Aufgaben</button>
+          <button id="show-active">active Tasks</button>
+          <button id="show-completed">finished Tasks</button>
         </div>
 
         <div id="tasks-list"></div>

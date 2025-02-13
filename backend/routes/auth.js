@@ -5,12 +5,8 @@ const jwt = require("jsonwebtoken");
 const db = require("../db");
 
 const router = express.Router();
-const jwtSecret = process.env.JWT_SECRET || "fallback-secret"; // Sicherstellen, dass ein Fallback vorhanden ist
+const jwtSecret = process.env.JWT_SECRET || "fallback-secret";
 
-// Der Rest des Codes bleibt unverändert ...
-// In der Produktion durch eine sichere Umgebungsvariable ersetzen
-
-// Registrierung
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 

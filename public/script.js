@@ -52,7 +52,7 @@ document.getElementById("login-btn").addEventListener("click", async () => {
       localStorage.setItem("token", data.token);
       document.getElementById("auth-section").style.display = "none";
       document.getElementById("todo-section").style.display = "block";
-      fetchTasks(); // Aufgaben nach dem Login abrufen
+      fetchTasks();
     } else {
       alert(data.message);
     }
@@ -62,7 +62,6 @@ document.getElementById("login-btn").addEventListener("click", async () => {
   }
 });
 
-// **Neue Aufgabe hinzufügen**
 document.getElementById("add-task-btn").addEventListener("click", async () => {
   const taskText = document.getElementById("new-task").value.trim();
   if (!taskText) {
@@ -84,8 +83,8 @@ document.getElementById("add-task-btn").addEventListener("click", async () => {
 
     if (response.ok) {
       alert("Aufgabe erfolgreich hinzugefügt");
-      document.getElementById("new-task").value = ""; // Eingabefeld leeren
-      fetchTasks(); // Neue Aufgabenliste abrufen
+      document.getElementById("new-task").value = "";
+      fetchTasks();
     } else {
       alert("Fehler beim Hinzufügen der Aufgabe.");
     }
@@ -94,7 +93,6 @@ document.getElementById("add-task-btn").addEventListener("click", async () => {
   }
 });
 
-// **Aufgaben abrufen und anzeigen**
 async function fetchTasks() {
   const token = localStorage.getItem("token");
 
@@ -109,7 +107,6 @@ async function fetchTasks() {
 
     const tasks = await response.json();
     if (response.ok) {
-      // Standardmäßig nur aktive Aufgaben anzeigen
       displayTasks(tasks.filter((task) => !task.completed));
       handleTabSwitch(tasks);
     } else {
@@ -122,7 +119,7 @@ async function fetchTasks() {
 
 function displayTasks(tasks) {
   const tasksList = document.getElementById("tasks-list");
-  tasksList.innerHTML = ""; // Liste leeren
+  tasksList.innerHTML = "";
 
   tasks.forEach((task) => {
     const taskItem = document.createElement("div");
@@ -144,7 +141,6 @@ function displayTasks(tasks) {
   });
 }
 
-// **Aufgabe als erledigt markieren**
 async function completeTask(taskId) {
   const token = localStorage.getItem("token");
 
@@ -159,7 +155,7 @@ async function completeTask(taskId) {
 
     if (response.ok) {
       alert("Aufgabe als erledigt markiert");
-      fetchTasks(); // Liste neu laden
+      fetchTasks();
     } else {
       alert("Fehler beim Markieren der Aufgabe.");
     }
@@ -168,7 +164,6 @@ async function completeTask(taskId) {
   }
 }
 
-// **Aufgabe löschen**
 async function deleteTask(taskId) {
   const token = localStorage.getItem("token");
 
@@ -183,7 +178,7 @@ async function deleteTask(taskId) {
 
     if (response.ok) {
       alert("Aufgabe erfolgreich gelöscht");
-      fetchTasks(); // Liste neu laden
+      fetchTasks();
     } else {
       alert("Fehler beim Löschen der Aufgabe.");
     }
@@ -192,13 +187,12 @@ async function deleteTask(taskId) {
   }
 }
 
-// **Tab-Umschaltung für aktive/erledigte Aufgaben**
 function handleTabSwitch(tasks) {
   document.getElementById("show-active").addEventListener("click", () => {
-    displayTasks(tasks.filter((task) => !task.completed)); // Nur aktive Aufgaben anzeigen
+    displayTasks(tasks.filter((task) => !task.completed));
   });
 
   document.getElementById("show-completed").addEventListener("click", () => {
-    displayTasks(tasks.filter((task) => task.completed)); // Nur erledigte Aufgaben anzeigen
+    displayTasks(tasks.filter((task) => task.completed));
   });
 }

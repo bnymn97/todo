@@ -22,7 +22,6 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// Neue Aufgabe erstellen
 router.post("/create", authenticateToken, (req, res) => {
   const { task_text } = req.body;
   const userId = req.userId;
@@ -47,7 +46,6 @@ router.post("/create", authenticateToken, (req, res) => {
   );
 });
 
-// Aufgaben abrufen mit optionalem Filter
 router.get("/", authenticateToken, (req, res) => {
   const userId = req.userId;
   const { completed } = req.query;
@@ -71,7 +69,6 @@ router.get("/", authenticateToken, (req, res) => {
   });
 });
 
-// Aufgabe als erledigt markieren
 router.patch("/:id/complete", authenticateToken, (req, res) => {
   const taskId = req.params.id;
   const userId = req.userId;
@@ -92,7 +89,6 @@ router.patch("/:id/complete", authenticateToken, (req, res) => {
   );
 });
 
-// Aufgabe bearbeiten
 router.put("/:id", authenticateToken, (req, res) => {
   const taskId = req.params.id;
   const userId = req.userId;
@@ -118,7 +114,6 @@ router.put("/:id", authenticateToken, (req, res) => {
   );
 });
 
-// Aufgabe löschen
 router.delete("/:id", authenticateToken, (req, res) => {
   const taskId = req.params.id;
   const userId = req.userId;
