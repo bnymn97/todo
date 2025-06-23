@@ -1,15 +1,54 @@
-# ToDo App
+# 📝 ToDo App
 
-Die **ToDo App** ist eine einfache Anwendung, mit der Benutzer ihre Aufgaben verwalten können. Sie bietet grundlegende Funktionen wie Benutzerregistrierung, Login, Erstellen, Anzeigen, Aktualisieren (als abgeschlossen markieren) und Löschen von Aufgaben.
-Die App basiert auf einem Express.js-Backend, nutzt MySQL als Datenbank und verwendet JWT zur Authentifizierung.
+Ein einfaches ToDo-Listen-Webprojekt mit Benutzerregistrierung, Login, Aufgabenverwaltung (CRUD) und JWT-Authentifizierung.
+Die Anwendung besteht aus einem **Frontend (HTML/CSS/JS)** und einem **Node.js/Express Backend**, betrieben mit **MySQL** und **Docker**.
 
-## Funktionen
+## 🚀 Features
 
-- **Benutzerregistrierung und Login:**  
-  Ermöglicht es neuen Benutzern, sich zu registrieren, und bestehenden Benutzern, sich anzumelden.
-  
-- **Aufgabenverwaltung:**  
-  Benutzer können neue Aufgaben hinzufügen, Aufgaben als abgeschlossen markieren und Aufgaben löschen.
+- ✅ Benutzerregistrierung & Login mit JWT
+- 🔐 Passwort-Hashing mit bcrypt
+- ➕ Aufgaben erstellen
+- ✏️ Aufgaben aktualisieren
+- ✅ Aufgaben als erledigt markieren
+- ❌ Aufgaben löschen
+- 📂 Filter: Aktive / Erledigte Aufgaben
+- 🐳 Docker-basierter Setup für einfache Bereitstellung
 
-- **JWT-Authentifizierung:**  
-  Sicherer Zugriff auf Aufgaben über Token-basierte Authentifizierung.
+---
+
+## 📦 Projektstruktur
+
+```plaintext
+.
+├── backend/              # Express.js Backend
+│   ├── routes/           # Auth & Task Routen
+│   ├── db.js             # MySQL-Verbindung
+│   ├── server.js         # Einstiegspunkt
+├── public/               # Frontend (HTML, CSS, JS)
+│   ├── index.html
+│   ├── style.css
+│   ├── script.js
+├── init.sql              # SQL-Init für MySQL
+├── Dockerfile
+├── docker-compose.yml
+├── .env
+└── README.md
+```
+
+## 🛠️ Setup (Lokal)
+1. Voraussetzungen
+Node.js
+
+Docker und Docker Compose
+
+2. .env Datei
+Erstelle eine Datei .env im Projektverzeichnis:
+- DB_HOST=db
+- DB_USER=root
+- DB_PASSWORD=1234
+- DB_NAME=todo_app
+- JWT_SECRET=super-secret-key
+3. Start mit Docker
+- docker-compose up --build
+🔗 App erreichbar unter: http://localhost:3000
+
